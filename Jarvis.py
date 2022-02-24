@@ -4,53 +4,47 @@ from plyer import notification
 import speech_recognition as sr
 import pyttsx3, datetime, wikipedia, pywhatkit, time, os, webbrowser, smtplib
 
-
-audio =  sr.Recognizer()
-
 engineJarvis = pyttsx3.init('sapi5')
+voiceJarvis = engineJarvis.getProperty('voices')
+engineJarvis.setProperty('voice', voiceJarvis[-3].id) # Voz feminina
 
-voices = engineJarvis.getProperty('voices')
-engineJarvis.setProperty('voice', voices[-3].id)
+recognizerJarvis =  sr.Recognizer()
 
-def speakJarvis(audio):
-    engineJarvis.say(audio)
+def speakJarvis(recognizerJarvis):
+    engineJarvis.say(recognizerJarvis)
     engineJarvis.runAndWait()
 
-def wishMe():    
+# Saudação
+def greetingJarvis():    
     
     hour = int(datetime.datetime.now().hour)
     
-    if hour>=0 and hour<12:
-        speakJarvis("Bom dia!")
-    elif hour>=12 and hour<18:
-        speakJarvis("Boa tarde!")
+    if (0 >= hour < 12):
+        greeting = "Bom dia!"
+    elif (12 <= hour < 18):
+        greeting = "Boa tarde!"
     else:
-        speakJarvis("Boa noite!")  
-
-    speakJarvis("eu sou Jarvis, assistente pessoal, o que posso ajudar?")   
+        greeting = "Boa noite!"
+        
+    speakJarvis(f"{greeting} eu sou Jarvis, assistente pessoal, o que posso ajudar?")   
     
-wishMe()    
-
-
 def takeCommand():
-    #It takes microphone input from the user and returns string output
-
-
-    with sr.Microphone() as source:
+    # Ativa o microfone, reconhece o comando e transforma em texto
+    with sr.Microphone() as capturingAudio:
         print("Ouvindo...")
-        listeningAudio = audio.listen(source,timeout=2,phrase_time_limit=60)
+        capturedAudio = recognizerJarvis.listen(capturingAudio,timeout=10,phrase_time_limit=60)
         time.sleep(10)
-
+    # Reconhece o texto e tranformar em voz
     try:
         print("Reconhecendo...")    
-        query = audio.recognize_google(listeningAudio, language='pt-BR')
-        print(f"Usuário disse: {query}\n")
-        speakJarvis(query)
-
+        commandJarvis = recognizerJarvis.recognize_google(capturedAudio, language='pt-BR')
+        print(f"Usuário disse: {commandJarvis}\n")
+        speakJarvis(commandJarvis)
+    # Caso não seja capturada a voz
     except Exception as e: 
         print("Desculpe, tente novamente, por favor...")  
         return "None"
-    return query
+    return commandJarvis
 
 def notifJarvis():
     while True:
@@ -58,11 +52,11 @@ def notifJarvis():
         time.sleep(1)
     
         notification.notify(
-            title = 'Texto do Titulo',
+            title = 'Jarvis',
             message = 'Teste',
             app_icon = 'water.ico',
             timeout = 10
-         )
+        )
     
         time.sleep(180)
     
@@ -70,30 +64,35 @@ def notifJarvis():
 
 if __name__ == "__main__":    
     while True:
+        greetingJarvis()
        
-        query = takeCommand().lower()
+        commandJarvis = takeCommand().lower()
 
-        if 'abrir youtube' in query:
+        if 'abrir youtube' in commandJarvis:
             webbrowser.open("youtube.com")
         
-        elif 'ouvir musica' in query:
+        elif 'ouvir musica' in commandJarvis:
             music_dir = 'C:\\Tools\\Musica'
             songs = os.listdir(music_dir)
             print(songs)    
             os.startfile(os.path.join(music_dir, songs[0]))
 
-        elif 'que hora são' in query:
+        elif 'que hora são' in commandJarvis:
             strTime = datetime.datetime.now().strftime("%H:%M:%S")    
             speakJarvis(f"Senhor, são {strTime}")
 
-        elif 'hora de codar' in query:
+        elif 'hora de codar' in commandJarvis:
             codePath = "C:\\Users\\thiago.passamani\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
             os.startfile(codePath)
             
-        elif 'tchau' in query:
+        elif 'notificação' in commandJarvis:
+            speakJarvis('Notificação')    
+            notifJarvis()
+            
+        elif 'teste' in commandJarvis:
+            speakJarvis('teste')    
+                            
+        else:        
             speakJarvis('Tchau')
             print('Tchau')
             exit()
-            
-        else:            
-            notifJarvis()
