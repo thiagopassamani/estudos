@@ -8,8 +8,11 @@ if (length > 6) :
     numbers = string.digits
     symbols = string.punctuation
 else :
-    lower   = "abcdfghijklmnopqrstuvwyz"
-    upper   = "ABCDFGHIJKLMNOPQRSTUVWYZ" 
+    alfa    = "abcdfghijklmnopqrstuvwyz"
+   
+    lower = alfa.lower()
+    upper = alfa.upper()  # "ABCDFGHIJKLMNOPQRSTUVWYZ"
+     
     numbers = "0123456789"
     symbols = "!@#$%&*+"
 
