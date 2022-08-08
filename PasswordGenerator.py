@@ -1,5 +1,4 @@
-import random
-import string
+import random, string
 
 length = int(input('Insira quantidade de digitos para a senha: '))
 
