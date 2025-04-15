@@ -76,4 +76,5 @@ New-FsrmFileGroup -Name "Crypt Files" -IncludePattern @(
 "*.SUPERCRYPT",
 "*.CTBL",
 "*.CTB2",
-"*.powerranges")
+"*.powerranges",
+"powerranges.txt")
