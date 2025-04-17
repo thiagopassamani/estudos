@@ -25,11 +25,13 @@ else
         {
             if(Test-NetConnection $ip -Port $porta -WarningAction SilentlyContinue -InformationLevel Quiet)
             {
-                Write-Host "Porta $porta [ Aberta ]" -ForegroundColor Green
+                #Write-Host "Porta $porta [ Aberta ]" -ForegroundColor Green
+                Write-Host "[ $porta ]" -ForegroundColor Green
             }
             else
             {
-                Write-Host "Porta $porta [ Fechada ]" -ForegroundColor Red
+                #Write-Host "Porta $porta [ Fechada ]" -ForegroundColor Red
+                Write-Host "[ $porta ]" -ForegroundColor Red
             }
         }
     }
