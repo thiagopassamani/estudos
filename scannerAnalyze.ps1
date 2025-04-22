@@ -1,5 +1,9 @@
 # Solicita o nome do host ou IP
 $hostName = Read-Host "Digite o nome do host ou endereço IP para análise"
+$reportFile = "C:\temp\Relatorio_$hostName.txt"
+
+# Criar arquivo de relatório
+"Relatório de Análise de Rede - $hostName" | Out-File -Encoding UTF8 $reportFile
 
 Write-Host "Analisando o host: $hostName" -ForegroundColor Cyan
 
@@ -41,3 +45,22 @@ foreach ($port in $commonPorts) {
 # 5. Detalhes da Interface de Rede Local
 Write-Host "`n[5] Detalhes da Interface de Rede Local:" -ForegroundColor Yellow
 Get-NetIPAddress | Format-Table -AutoSize
+
+# 6. Teste de velocidade de internet
+Write-Host "`n[6] Teste de Velocidade de Conexão:" -ForegroundColor Yellow
+$startTime = Get-Date
+$download = Invoke-WebRequest -Uri "http://speedtest.tele2.net/1MB.zip" -UseBasicParsing
+$endTime = Get-Date
+$speed = ($download.RawContentLength / ($endTime - $startTime).TotalSeconds) / 1024
+Write-Host "Velocidade de download: $speed KB/s" -ForegroundColor Green
+"Velocidade de download: $speed KB/s" | Out-File -Append -Encoding UTF8 $reportFile
+
+# 7. Monitoramento de processos ativos
+Write-Host "`n[7] Processos Ativos no Host:" -ForegroundColor Yellow
+Get-Process | Select-Object ProcessName, Id, CPU | Format-Table -AutoSize | Out-File -Append -Encoding UTF8 $reportFile
+
+# 8. Estatísticas da Interface de Rede
+Write-Host "`n[8] Estatísticas de Rede:" -ForegroundColor Yellow
+Get-NetAdapter | Format-Table -AutoSize | Out-File -Append -Encoding UTF8 $reportFile
+
+Write-Host "`nAnálise concluída! Relatório salvo em $reportFile" -ForegroundColor Green
