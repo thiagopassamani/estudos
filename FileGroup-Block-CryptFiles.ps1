@@ -1,8 +1,9 @@
 #################################################################################################################
-# --- Recomendações de Uso no FSRM
+# Recomendações de Uso no FSRM
+#################################################################################################################
 # Ação de Bloqueio: Configure o FSRM em modo Active Screening no File Screen relativo 
 # a este File Group para impedir imediatamente que os usuários gravem arquivos que coincidam com esses padrões.
-#
+#################################################################################################################
 # Automação de Resposta: Associe uma ação de execução de comando (Command Action) 
 # ao acionamento do FSRM para rodar um script que desabilite a conta do usuário ou revogue o acesso 
 # ao compartilhamento de rede no instante do disparo do bloqueio.
