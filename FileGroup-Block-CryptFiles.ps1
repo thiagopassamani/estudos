@@ -153,5 +153,8 @@ New-FsrmFileGroup -Name "Crypt Files" -IncludePattern @(
 "_readme.txt",
 "akira_readme.txt",
 "rhysida.txt",
-"*HOW_TO_DECRYPT_FILES*"
+"*HOW_TO_DECRYPT_FILES*",
+"*.skynet",
+"*.marlock",
+"*.farlock"
 )
