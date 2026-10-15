@@ -157,5 +157,6 @@ New-FsrmFileGroup -Name "Crypt Files" -IncludePattern @(
 "*HOW_TO_DECRYPT_FILES*",
 "*.skynet",
 "*.marlock",
-"*.farlock"
+"*.farlock",
+"*.infected"
 )
